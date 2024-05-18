@@ -21,8 +21,9 @@ import { readFileSync } from 'node:fs';
 const client = new ConcordiumGRPCNodeClient(
     "node.testnet.concordium.com",
     Number(20000),
-    credentials.createInsecure()
+    credentials.createInsecure() //  credentials.createSsl(),
 );
+
 
 /**
  * The following example demonstrates how a simple transfer can be created.

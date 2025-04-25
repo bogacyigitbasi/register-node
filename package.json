@@ -4,9 +4,10 @@
   "private": true,
   "dependencies": {
     "@concordium/browser-wallet-api-helpers": "^3.0.1",
-    "@concordium/web-sdk": "^7.3.2",
+    "@concordium/web-sdk": "^10.0.0-alpha.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@ibm-cloud/ibm-key-protect": "^0.4.1",
     "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
     "@testing-library/jest-dom": "^5.14.1",

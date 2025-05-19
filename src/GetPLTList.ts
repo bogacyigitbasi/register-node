@@ -13,9 +13,9 @@ import { ConcordiumGRPCNodeClient } from '@concordium/web-sdk/nodejs';
 import { credentials } from '@grpc/grpc-js';
 
 const client = new ConcordiumGRPCNodeClient(
-    "node.testnet.concordium.com",
+    "grpc.devnet-plt-alpha.concordium.com",
     Number(20000),
-    credentials.createInsecure() //  credentials.createSsl(),
+    credentials.createSsl(),//credentials.createInsecure() //
 );
 
 /**

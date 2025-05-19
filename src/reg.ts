@@ -19,7 +19,7 @@ import { readFileSync } from 'node:fs';
 
 
 const client = new ConcordiumGRPCNodeClient(
-    "node.testnet.concordium.com",
+    "grpc.testnet.concordium.com",
     Number(20000),
     credentials.createInsecure() //  credentials.createSsl(),
 );

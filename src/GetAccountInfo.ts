@@ -5,14 +5,16 @@
  * @returns TokenInfo {TokenId, TokenState}
  */
 
+
+// npx tsx src/reg.ts
 import { ConcordiumGRPCNodeClient } from '@concordium/web-sdk/nodejs';
 import { credentials } from '@grpc/grpc-js';
 import { TokenId, TokenInfo, TokenAmount, TokenAccountInfo, Token, V1 } from '@concordium/web-sdk/plt';
 import { AccountAddress, AccountInfo, AccountInfoType, BlockHash } from '@concordium/web-sdk';
 const client = new ConcordiumGRPCNodeClient(
-    "node.testnet.concordium.com",
+    "grpc.devnet-plt-alpha.concordium.com",
     Number(20000),
-    credentials.createInsecure() //  credentials.createSsl(),
+    credentials.createSsl(),//credentials.createInsecure() //
 );
 
 /**
@@ -21,7 +23,7 @@ const client = new ConcordiumGRPCNodeClient(
  */
 (async () => {
     // #region documentation-snippet
-    const accountAddress = AccountAddress.fromBase58("someAddress");
+    const accountAddress = AccountAddress.fromBase58("3wz5Yzon6SZ4Hed7FyZuM9HzDs9ohmwmVbcjuFsLxvFW2gyTHE");
     // If using a specific block hash, uncomment and replace with actual hash
     // Or use undefined for latest finalized block
     const blockHash = undefined;

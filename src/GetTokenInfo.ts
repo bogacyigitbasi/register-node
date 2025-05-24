@@ -12,9 +12,9 @@ import { ConcordiumGRPCNodeClient } from '@concordium/web-sdk/nodejs';
 import { credentials } from '@grpc/grpc-js';
 import { TokenId, TokenInfo } from '@concordium/web-sdk/plt';
 const client = new ConcordiumGRPCNodeClient(
-    "node.testnet.concordium.com",
+    "grpc.devnet-plt-alpha.concordium.com",
     Number(20000),
-    credentials.createInsecure() //  credentials.createSsl(),
+    credentials.createSsl(),
 );
 
 /**
@@ -24,7 +24,7 @@ const client = new ConcordiumGRPCNodeClient(
 (async () => {
     // #region documentation-snippet
     // token symbol
-    const tokenId = TokenId.fromString("PLT_SYM");
+    const tokenId = TokenId.fromString("0xbog");
     // If using a specific block hash, uncomment and replace with actual hash
     // Or use undefined for latest finalized block
     const blockHash = undefined;

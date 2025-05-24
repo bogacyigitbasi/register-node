@@ -9,16 +9,16 @@ import {
     parseWallet,
     buildAccountSigner,
 } from '@concordium/web-sdk';
-import { TokenId, TokenInfo, TokenAmount, V1 } from '@concordium/web-sdk/plt';
+import { TokenId, TokenInfo, TokenAmount, TokenAccountInfo, Token, V1 } from '@concordium/web-sdk/plt';
 import { ConcordiumGRPCNodeClient } from '@concordium/web-sdk/nodejs';
 import { credentials } from '@grpc/grpc-js';
 import { readFileSync } from 'node:fs';
 
 
 const client = new ConcordiumGRPCNodeClient(
-    "node.testnet.concordium.com",
+    "grpc.devnet-plt-alpha.concordium.com",
     Number(20000),
-    credentials.createInsecure() //  credentials.createSsl(),
+    credentials.createSsl(),//credentials.createInsecure() //
 );
 
 /**
@@ -30,20 +30,20 @@ const client = new ConcordiumGRPCNodeClient(
     console.log("Current working directory:", process.cwd());
 
     // using wallet.export file
-    const walletFile = readFileSync("wallet.export", 'utf8');
+    const walletFile = readFileSync("3wDev.export", 'utf8');
     const walletExport = parseWallet(walletFile);
     const sender = AccountAddress.fromBase58(walletExport.value.address);
     const signer = buildAccountSigner(walletExport);
 
     // using wallet.json file
-    // const walletJson = readFileSync("wallet.json", 'utf8');
+    // const walletJson = readFileSync("test-9.json", 'utf8');
     // const keys = JSON.parse(walletJson);
     // const signer = buildAccountSigner(keys);
-
+    // const sender = AccountAddress.fromBase58(keys["address"])
     // parse the other arguments
-    const tokenSymbol = TokenId.fromString("PLT_SYM");
-    const amount = TokenAmount.fromDecimal(123); // some amount to transfer
-    const recipient = AccountAddress.fromBase58("Recipient address"); // account address to receive
+    const tokenSymbol = TokenId.fromString("0xbogac");
+    const amount = TokenAmount.fromDecimal(10); // some amount to transfer
+    const recipient = AccountAddress.fromBase58("3qPANbuQpsXiv5JFKdEoDAVdEygZukxAiuW3Eaaain9g2inUcQ"); // account address to receive
     const memo = undefined;
     // memo = CborMemo.fromString("Any Message To add")
 

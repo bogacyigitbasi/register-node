@@ -39,7 +39,7 @@ exports.__esModule = true;
 var web_sdk_1 = require("@concordium/web-sdk");
 var nodejs_1 = require("@concordium/web-sdk/nodejs");
 var grpc_js_1 = require("@grpc/grpc-js");
-var client = new nodejs_1.ConcordiumGRPCNodeClient("node.testnet.concordium.com", Number(20000), grpc_js_1.credentials.createInsecure());
+var client = new nodejs_1.ConcordiumGRPCNodeClient("grpc.testnet.concordium.com", Number(20000), grpc_js_1.credentials.createInsecure());
 /**
  * The following example demonstrates how a simple transfer can be created.
  */

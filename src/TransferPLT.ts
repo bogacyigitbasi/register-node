@@ -30,7 +30,7 @@ const client = new ConcordiumGRPCNodeClient(
     console.log("Current working directory:", process.cwd());
 
     // using wallet.export file
-    const walletFile = readFileSync("3sDev.export", 'utf8');
+    const walletFile = readFileSync("3wDev.export", 'utf8');
     const walletExport = parseWallet(walletFile);
     const sender = AccountAddress.fromBase58(walletExport.value.address);
     const signer = buildAccountSigner(walletExport);
@@ -41,9 +41,9 @@ const client = new ConcordiumGRPCNodeClient(
     // const signer = buildAccountSigner(keys);
     // const sender = AccountAddress.fromBase58(keys["address"])
     // parse the other arguments
-    const tokenSymbol = TokenId.fromString("ProtocolLevelToken");
+    const tokenSymbol = TokenId.fromString("0xbogac");
     const amount = TokenAmount.fromDecimal(10); // some amount to transfer
-    const recipient = AccountAddress.fromBase58("4tFVVpFpgiEmSjWjZg5sZQ2oR5yKCpjUgoubZ3sdXXZekaPbm2"); // account address to receive
+    const recipient = AccountAddress.fromBase58("3qPANbuQpsXiv5JFKdEoDAVdEygZukxAiuW3Eaaain9g2inUcQ"); // account address to receive
     const memo = undefined;
     // memo = CborMemo.fromString("Any Message To add")
 

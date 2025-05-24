@@ -33,7 +33,7 @@ const client = new ConcordiumGRPCNodeClient(
     const walletExport = parseWallet(walletFile);
     const sender = AccountAddress.fromBase58(walletExport.value.address);
     const signer = buildAccountSigner(walletExport);
-    const tokenId = TokenId.fromString("0xbogac");
+    const tokenId = TokenId.fromString("TRYa");
     const tokenAmount = TokenAmount.fromDecimal(121);
     try {
         const token = await V1.Token.fromId(client, tokenId);

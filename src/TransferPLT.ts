@@ -41,9 +41,9 @@ const client = new ConcordiumGRPCNodeClient(
     // const signer = buildAccountSigner(keys);
     // const sender = AccountAddress.fromBase58(keys["address"])
     // parse the other arguments
-    const tokenSymbol = TokenId.fromString("0xbogac12");
-    const amount = TokenAmount.fromDecimal(10000); // some amount to transfer
-    const recipient = AccountAddress.fromBase58("3syRvpKSqYd6YHbE4xq2Py4GNkXEUhCbvSPpmmNFdwAemxXevs"); // account address to receive
+    const tokenSymbol = TokenId.fromString("0xbogac");
+    const amount = TokenAmount.fromDecimal(100000); // some amount to transfer
+    const recipient = AccountAddress.fromBase58("4UQHD4NjnGYzgJbaYd5KKNkrPj2yLicQtEt4hC1bGpk3VBPJKE"); // account address to receive
     const memo = undefined;
     // memo = CborMemo.fromString("Any Message To add")
 

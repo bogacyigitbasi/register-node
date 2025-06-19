@@ -24,7 +24,7 @@ const client = new ConcordiumGRPCNodeClient(
 (async () => {
     // #region documentation-snippet
     // token symbol
-    const tokenId = TokenId.fromString("0xbogac");
+    const tokenId = TokenId.fromString("VNXAU1N");
     // If using a specific block hash, uncomment and replace with actual hash
     // Or use undefined for latest finalized block
     const blockHash = undefined;

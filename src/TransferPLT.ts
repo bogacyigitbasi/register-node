@@ -43,7 +43,7 @@ const client = new ConcordiumGRPCNodeClient(
     // parse the other arguments
     const tokenSymbol = TokenId.fromString("0xbogac");
     const amount = TokenAmount.fromDecimal(100000); // some amount to transfer
-    const recipient = AccountAddress.fromBase58("4UQHD4NjnGYzgJbaYd5KKNkrPj2yLicQtEt4hC1bGpk3VBPJKE"); // account address to receive
+    const recipient = AccountAddress.fromBase58("3y9o3HsRHijTaYTxNNAWS1mfSjtzjKn51zNFVbWZ4CUmBakVv4"); // account address to receive
     const memo = undefined;
     // memo = CborMemo.fromString("Any Message To add")
 

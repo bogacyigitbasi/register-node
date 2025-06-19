@@ -23,7 +23,7 @@ const client = new ConcordiumGRPCNodeClient(
  */
 (async () => {
     // #region documentation-snippet
-    const accountAddress = AccountAddress.fromBase58("3wz5Yzon6SZ4Hed7FyZuM9HzDs9ohmwmVbcjuFsLxvFW2gyTHE");
+    const accountAddress = AccountAddress.fromBase58("3JLFF6RGoKNL8V8ycvuwXU3ZCNRKh78ytdr92pTb5GADnjeDnx");
     // If using a specific block hash, uncomment and replace with actual hash
     // Or use undefined for latest finalized block
     const blockHash = undefined;

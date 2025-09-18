@@ -8,15 +8,17 @@ import {
     AccountAddress,
     parseWallet,
     buildAccountSigner,
+    TransactionSummaryType,
+    TransactionKindString,
+    RejectReasonTag,
 } from '@concordium/web-sdk';
-import { TokenId, TokenInfo, TokenAmount, TokenAccountInfo, Token, V1 } from '@concordium/web-sdk/plt';
+import { TokenId, TokenAmount, Cbor, Token, TokenTransfer, TokenHolder } from '@concordium/web-sdk/plt';
 import { ConcordiumGRPCNodeClient } from '@concordium/web-sdk/nodejs';
 import { credentials } from '@grpc/grpc-js';
 import { readFileSync } from 'node:fs';
 
-
 const client = new ConcordiumGRPCNodeClient(
-    "grpc.devnet-plt-alpha.concordium.com",
+    "grpc.devnet-plt-beta.concordium.com",
     Number(20000),
     credentials.createSsl(),//credentials.createInsecure() //
 );
@@ -30,24 +32,21 @@ const client = new ConcordiumGRPCNodeClient(
     console.log("Current working directory:", process.cwd());
 
     // using wallet.export file
-    const walletFile = readFileSync("3wDev.export", 'utf8');
+    const walletFile = readFileSync("3TDev.export", 'utf8');
     const walletExport = parseWallet(walletFile);
     const sender = AccountAddress.fromBase58(walletExport.value.address);
     const signer = buildAccountSigner(walletExport);
 
-    // using wallet.json file
-    // const walletJson = readFileSync("test-9.json", 'utf8');
-    // const keys = JSON.parse(walletJson);
-    // const signer = buildAccountSigner(keys);
-    // const sender = AccountAddress.fromBase58(keys["address"])
+
     // parse the other arguments
-    const tokenSymbol = TokenId.fromString("0xbogac");
-    const amount = TokenAmount.fromDecimal(100000); // some amount to transfer
-    const recipient = AccountAddress.fromBase58("3y9o3HsRHijTaYTxNNAWS1mfSjtzjKn51zNFVbWZ4CUmBakVv4"); // account address to receive
+    const tokenId = TokenId.fromString("TestDevnetDenylist"); // Replace with actual token ID
+    const token = await Token.fromId(client, tokenId);
+    const amount = TokenAmount.fromDecimal(20, token.info.state.decimals); // some amount to transfer
+    const recipient = TokenHolder.fromAccountAddress(AccountAddress.fromBase58("3fGWbmGueJwNUtjyfsYNkMdKccXWceDdamqCjSc1pTAGktp5L9")); // replace with actual address to receive
     const memo = undefined;
     // memo = CborMemo.fromString("Any Message To add")
 
-    const transfer: V1.TokenTransfer = {
+    const transfer: TokenTransfer = {
         recipient,
         amount,
         memo,
@@ -56,12 +55,29 @@ const client = new ConcordiumGRPCNodeClient(
 
     // From a service perspective:
     // create the token instance
-    const token = await V1.Token.fromId(client, tokenSymbol);
-    const transaction = await V1.Token.transfer(token, sender, transfer, signer);
+    const transaction = await Token.transfer(token, sender, transfer, signer);
     console.log(`Transaction submitted with hash: ${transaction}`);
-    // #endregion documentation-snippet-sign-transaction
 
-    const status = await client.waitForTransactionFinalization(transaction);
-    console.dir(status, { depth: null, colors: true });
-    // #endregion documentation-snippet
+    const result = await client.waitForTransactionFinalization(transaction);
+    console.log('Transaction finalized:', result);
+
+    if (result.summary.type !== TransactionSummaryType.AccountTransaction) {
+        throw new Error('Unexpected transaction type: ' + result.summary.type);
+    }
+
+    switch (result.summary.transactionType) {
+        case TransactionKindString.TokenUpdate:
+            console.log('TokenTransfer events:');
+            result.summary.events.forEach((e) => console.log(e.event));
+            break;
+        case TransactionKindString.Failed:
+            if (result.summary.rejectReason.tag !== RejectReasonTag.TokenUpdateTransactionFailed) {
+                throw new Error('Unexpected reject reason tag: ' + result.summary.rejectReason.tag);
+            }
+            const details = Cbor.decode(result.summary.rejectReason.contents.details);
+            console.error(result.summary.rejectReason.contents, details);
+            break;
+        default:
+            throw new Error('Unexpected transaction kind: ' + result.summary.transactionType);
+    }
 })();

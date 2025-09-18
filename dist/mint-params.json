@@ -1,0 +1,19 @@
+{
+    "owner": {
+        "Account": [
+            "3pXBNAZFjsysVwCKDCt2k58h7owwRaE3hrc5AnHwiepRpSg7CB"
+        ]
+    },
+    "tokens": [
+        [
+            "11",
+            [
+                {
+                    "url": "https://ipfs.io/ipfs/bafkreiatxlroggafeskzoe35junil7tgo5we5dthw4767eq4hu4camap6u",
+                    "hash": "13bae2e31805249597137d4d1a85fe66776c4e8e67b73fef921c3d3820300ff5"
+                },
+                "1"
+            ]
+        ]
+    ]
+}

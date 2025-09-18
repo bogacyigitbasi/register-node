@@ -32,10 +32,10 @@ const client = new ConcordiumGRPCNodeClient(
 
 
     const account = AccountAddress.fromBase58(
-        '3Tqi5eyvvvWhNwFpxCrfuiP7DjJ6Rh3aJbt5mYW23z6aBYkm4Q'
+        '3PzT4ixx2YTrMjVzWMV2Ha1SboQwv9Q6ng3uNjvvaaQvZ2KL9K'
     );
 
-    const aliasCounter: number = 1;
+    const aliasCounter: number = 1123;
     const alias = AccountAddress.getAlias(account, aliasCounter);
     // From a service perspective:
     // create the token instance

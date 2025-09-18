@@ -1,0 +1,31 @@
+{
+  "seqNumber": 4,
+  "effectiveTime": 0,
+  "timeout": 1756520200,
+  "payload": {
+    "updateType": "createPLT",
+    "update": {
+      "tokenId": "TestDevnetDenylist",
+      "tokenModule": "5c5c2645db84a7026d78f2501740f60a8ccb8fae5c166dc2428077fd9a699a4a",
+      "decimals": 2,
+      "initializationParameters": {
+        "governanceAccount": {
+          "type": "account",
+          "address": "3TPzzVYL9U2EDrWiF1REfXnYyrJhwubZ5qN67gKjQYHAHWzwZT"
+        },
+        "name": "Devnet Test Token",
+        "metadata": {
+          "url": "https://test.plt"
+        },
+        "initialSupply": {
+          "value": "100000",
+          "decimals": 2
+        },
+        "allowList": false,
+        "denyList": true,
+        "mintable": true,
+        "burnable": true
+      }
+    }
+  }
+}

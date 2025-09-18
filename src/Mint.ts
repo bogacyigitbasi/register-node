@@ -8,15 +8,19 @@ import {
     AccountAddress,
     parseWallet,
     buildAccountSigner,
+    TransactionSummaryType,
+    TransactionKindString,
+    RejectReasonTag,
 } from '@concordium/web-sdk';
-import { TokenId, TokenInfo, TokenAmount, TokenAccountInfo, Token, V1 } from '@concordium/web-sdk/plt';
+import { TokenId, TokenAmount, Cbor, Token } from '@concordium/web-sdk/plt';
+
 import { ConcordiumGRPCNodeClient } from '@concordium/web-sdk/nodejs';
 import { credentials } from '@grpc/grpc-js';
 import { readFileSync } from 'node:fs';
 
 
 const client = new ConcordiumGRPCNodeClient(
-    "grpc.devnet-plt-alpha.concordium.com",
+    "https://grpc.devnet-plt-beta.concordium.com",
     Number(20000),
     credentials.createSsl(),//credentials.createInsecure() //
 );
@@ -34,19 +38,42 @@ const client = new ConcordiumGRPCNodeClient(
     const sender = AccountAddress.fromBase58(walletExport.value.address);
     const signer = buildAccountSigner(walletExport);
     const tokenId = TokenId.fromString("TRYa");
-    const tokenAmount = TokenAmount.fromDecimal(121);
-    try {
-        const token = await V1.Token.fromId(client, tokenId);
+    const token = await Token.fromId(client, tokenId);
+    //    const tokenAmount = TokenAmount.fromDecimal(121);
+    const tokenAmount = TokenAmount.fromDecimal(10, token.info.state.decimals); // amount to mint
 
-        console.log(`Attempting to mint ${tokenAmount.toString()} ${tokenId.toString()} tokens...`);
+    // Only the token issuer can mint tokens
+    console.log(`Attempting to mint ${tokenAmount.toString()} ${tokenId.toString()} tokens...`);
 
-        const transaction = await V1.Governance.mint(token, sender, tokenAmount, signer);
-        console.log(`Mint transaction submitted with hash: ${transaction}`);
+    // Execute the mint operation
+    const transaction = await Token.mint(token, sender, tokenAmount, signer);
+    console.log(transaction.buffer);
+    console.log(`Mint transaction submitted with hash: ${transaction}`);
 
-        const result = await client.waitForTransactionFinalization(transaction);
-        console.log('Transaction finalized:', result);
-    } catch (error) {
-        console.error('Error during minting operation:', error);
+    const result = await client.waitForTransactionFinalization(transaction);
+    console.log('Transaction finalized:', result);
+
+    if (result.summary.type !== TransactionSummaryType.AccountTransaction) {
+        throw new Error('Unexpected transaction type: ' + result.summary.type);
     }
+
+    switch (result.summary.transactionType) {
+        case TransactionKindString.TokenUpdate:
+            console.log('TokenMint events:');
+            result.summary.events.forEach((e) => console.log(e.event));
+            break;
+        case TransactionKindString.Failed:
+            if (result.summary.rejectReason.tag !== RejectReasonTag.TokenUpdateTransactionFailed) {
+                throw new Error('Unexpected reject reason tag: ' + result.summary.rejectReason.tag);
+            }
+            const details = Cbor.decode(result.summary.rejectReason.contents.details);
+            console.error(result.summary.rejectReason.contents, details);
+            break;
+        default:
+            throw new Error('Unexpected transaction kind: ' + result.summary.transactionType);
+    }
+} catch (error) {
+    console.error('Error during minting operation:', error);
+
     // #endregion documentation-snippet
-})();
+}) ();

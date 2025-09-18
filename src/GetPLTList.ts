@@ -13,7 +13,7 @@ import { ConcordiumGRPCNodeClient } from '@concordium/web-sdk/nodejs';
 import { credentials } from '@grpc/grpc-js';
 
 const client = new ConcordiumGRPCNodeClient(
-    "grpc.devnet-plt-alpha.concordium.com",
+    "grpc.devnet-plt-beta.concordium.com",
     Number(20000),
     credentials.createSsl(),//credentials.createInsecure() //
 );

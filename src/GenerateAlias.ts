@@ -15,7 +15,7 @@ import { readFileSync } from 'node:fs';
 
 
 const client = new ConcordiumGRPCNodeClient(
-    "grpc.devnet-plt-alpha.concordium.com",
+    "grpc.testnet.concordium.com",
     Number(20000),
     credentials.createSsl(),//credentials.createInsecure() //
 );
@@ -32,10 +32,10 @@ const client = new ConcordiumGRPCNodeClient(
 
 
     const account = AccountAddress.fromBase58(
-        '3PzT4ixx2YTrMjVzWMV2Ha1SboQwv9Q6ng3uNjvvaaQvZ2KL9K'
+        '3TPzzVYL9U2EDrWiF1REfXnYyrJhwubZ5qN67gKjQYHAHWzwZT'
     );
 
-    const aliasCounter: number = 1123;
+    const aliasCounter: number = 112;
     const alias = AccountAddress.getAlias(account, aliasCounter);
     // From a service perspective:
     // create the token instance

@@ -35,7 +35,7 @@ const client = new ConcordiumGRPCNodeClient(
     // using wallet.export file
     const walletFile = readFileSync("3wDev.export", 'utf8');
     const walletExport = parseWallet(walletFile);
-    const sender = AccountAddress.fromBase58(walletExport.value.address);
+    const sender = AccountAddress.fromBase58("4K9b95m226jgKqAHSgYUUzab6rbfsZ8THUCb8CK989Nr5Sc7DJ");
     const signer = buildAccountSigner(walletExport);
     const tokenId = TokenId.fromString("TRYa");
     const token = await Token.fromId(client, tokenId);
@@ -72,8 +72,9 @@ const client = new ConcordiumGRPCNodeClient(
         default:
             throw new Error('Unexpected transaction kind: ' + result.summary.transactionType);
     }
-} catch (error) {
-    console.error('Error during minting operation:', error);
-
+}
+    // catch (error) {
+    //     console.error('Error during minting operation:', error);
+    // }
     // #endregion documentation-snippet
-}) ();
+)();

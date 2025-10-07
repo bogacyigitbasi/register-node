@@ -11,7 +11,8 @@ import {
     TransactionExpiry,
     parseWallet,
     buildAccountSigner,
-    RegisterDataPayload
+    RegisterDataPayload,
+    SequenceNumber
 } from '@concordium/web-sdk';
 import { ConcordiumGRPCNodeClient } from '@concordium/web-sdk/nodejs';
 import { credentials } from '@grpc/grpc-js';

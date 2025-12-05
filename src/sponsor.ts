@@ -1,0 +1,22 @@
+export async function sponsorTransaction(
+    sender: AccountAddress.Type,
+    transaction: Transaction.JSON
+): Promise<Transaction.JSON> {
+    const builder = Transaction.builderFromJSON(transaction);
+    const [sponsorAccount, sponsorSigner] = wallet;
+
+    // A sponsor would probably want to do some validation of the transaction at this point, i.e.:
+    // - is this a transaction I want to sponsor?
+    // - can the sender successfully execute this transaction?
+
+    // The sponsor constructs the final transaction to be signed by both parties.
+    const senderNonce = await grpcClient.getNextAccountNonce(sender);
+    const sponsorableTransaction = builder
+        .addMetadata({ sender, nonce: senderNonce.nonce, expiry: TransactionExpiry.futureMinutes(5) })
+        .addSponsor(sponsorAccount)
+        .build();
+
+    // Sponsor adds its signatures on the transaction and returns it to be signed by the sender.
+    const sponsored = await Transaction.sponsor(sponsorableTransaction, sponsorSigner);
+    return Transaction.toJSON(sponsored);
+}

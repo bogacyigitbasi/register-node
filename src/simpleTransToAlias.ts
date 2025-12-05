@@ -65,7 +65,7 @@ const client = new ConcordiumGRPCNodeClient(
     let simpleTransfer = {
         amount: CcdAmount.fromMicroCcd(1000),
         toAddress,
-        memo: undefined
+        memo: memo
     };
 
 

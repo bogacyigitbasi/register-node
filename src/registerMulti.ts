@@ -60,14 +60,14 @@ async function waitUntilNodeSeesNextNonce(
     const base: bigint = SequenceNumber.toUnwrappedJSON(nextNonce.nonce); // <-- bigint
 
     // Precompute 3 headers with incremented nonces (off-chain)
-    const headers: AccountTransactionHeader[] = Array.from({ length: 64 }, (_, i) => ({
+    const headers: AccountTransactionHeader[] = Array.from({ length: 32 }, (_, i) => ({
         expiry: TransactionExpiry.futureMinutes(60),
         nonce: SequenceNumber.create(base + BigInt(i)),
         sender,
     }));
 
     // Build 3 registerData payloads (customize the bytes as you wish)
-    const payloads: RegisterDataPayload[] = Array.from({ length: 64 }, (_, i) => ({
+    const payloads: RegisterDataPayload[] = Array.from({ length: 32 }, (_, i) => ({
         data: new DataBlob(Buffer.from(`test #${i}`, 'utf8')),
     }));
 
@@ -86,7 +86,7 @@ async function waitUntilNodeSeesNextNonce(
     // --- replace concurrent send with: send in order + wait for mempool ack ---
     const sendResults: Array<PromiseSettledResult<import('@concordium/web-sdk').TransactionHash>> = [];
 
-    for (let i = 0; i < txs.length; i++) {
+    for (let i = 31; i >= 0; i--) {
         const wantNonce = SequenceNumber.toUnwrappedJSON(txs[i].header.nonce);
         try {
             const hash = await client.sendAccountTransaction(txs[i], signatures[i]);

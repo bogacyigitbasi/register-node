@@ -19,6 +19,7 @@ import { readFileSync } from 'node:fs';
 
 const client = new ConcordiumGRPCNodeClient(
     "grpc.testnet.concordium.com",
+    // "grpc.devnet-plt-beta.concordium.com",
     Number(20000),
     credentials.createSsl(),//credentials.createInsecure() //
 );
@@ -33,6 +34,9 @@ const client = new ConcordiumGRPCNodeClient(
 
     // using wallet.export file
     const walletFile = readFileSync("3Atest.export", 'utf8');
+    // const walletFile = readFileSync("3TDev.export", 'utf8');
+
+
     const walletExport = parseWallet(walletFile);
     const sender = AccountAddress.fromBase58(walletExport.value.address);
     const signer = buildAccountSigner(walletExport);
@@ -41,8 +45,8 @@ const client = new ConcordiumGRPCNodeClient(
     // parse the other arguments
     const tokenId = TokenId.fromString("USDR"); // Replace with actual token ID
     const token = await Token.fromId(client, tokenId);
-    const amount = TokenAmount.fromDecimal(1000, token.info.state.decimals); // some amount to transfer
-    const recipient = TokenHolder.fromAccountAddress(AccountAddress.fromBase58("3Pqz1tpj9yu1zUE4gggXUr4PjapvuX14hHjZF8c53X84onYWGd")); // replace with actual address to receive
+    const amount = TokenAmount.fromDecimal(20, token.info.state.decimals); // some amount to transfer
+    const recipient = TokenHolder.fromAccountAddress(AccountAddress.fromBase58("4JgDjqeUV51fhDDYDuVLG2iUgnWzfwDqxs5kkp5k8pbtxoGEVF")); // replace with actual address to receive
     const memo = undefined;
     // memo = CborMemo.fromString("Any Message To add")
 

@@ -26,7 +26,8 @@ import { cborDecode } from '@concordium/web-sdk';
 import { CborMemo } from '@concordium/web-sdk/plt';
 
 const client = new ConcordiumGRPCNodeClient(
-    "grpc.testnet.concordium.com",
+    // "grpc.testnet.concordium.com",
+    "grpc.mainnet.concordium.software",
     Number(20000),
     credentials.createSsl(),//credentials.createInsecure() //
 );
@@ -56,7 +57,7 @@ const client = new ConcordiumGRPCNodeClient(
     // }
 
     const blockItemStatus: BlockItemStatus = await client.getBlockItemStatus(
-        TransactionHash.fromHexString("06b9352d438bc9a3e1b80e40ad98df3de166171b6aec21efdda11f8109503a13")
+        TransactionHash.fromHexString("9a5c86ed20dacd641b8ff27dd45e0d1c15811a56380af4bf0715df952bbed60a")
     );
 
     if (blockItemStatus.status === 'received') {

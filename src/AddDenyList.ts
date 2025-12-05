@@ -31,7 +31,7 @@ const client = new ConcordiumGRPCNodeClient(
 const walletFile = readFileSync("3TDev.export", 'utf8');
 // parse the arguments
 const tokenId = TokenId.fromString("TestDevnetDenylist"); // Replace with actual token ID
-const targetAddress = TokenHolder.fromAccountAddress(AccountAddress.fromBase58("3fGWbmGueJwNUtjyfsYNkMdKccXWceDdamqCjSc1pTAGktp5L9")); // Replace with actual target address
+const targetAddress = TokenHolder.fromAccountAddress(AccountAddress.fromBase58("3TPzzVYL9U2EDrWiF1REfXnYyrJhwubZ5qN67gKjQYHAHWzwZT")); // Replace with actual target address
 
 if (walletFile !== undefined) {
     /* Service perspective: For backend services and automated systems
@@ -49,7 +49,7 @@ if (walletFile !== undefined) {
         console.log(`Attempting to add ${targetAddress.toString()} to deny list for ${tokenId.toString()}...`);
 
         // Execute the add to deny list operation
-        const transaction = await Token.addAllowList(token, sender, targetAddress, signer);
+        const transaction = await Token.removeDenyList(token, sender, targetAddress, signer);
         console.log(`Transaction submitted with hash: ${transaction}`);
 
         const result = await client.waitForTransactionFinalization(transaction);

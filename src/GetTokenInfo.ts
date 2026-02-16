@@ -3,14 +3,14 @@ import { credentials } from '@grpc/grpc-js';
 import { TokenId, TokenInfo, Cbor } from '@concordium/web-sdk/plt';
 
 const client = new ConcordiumGRPCNodeClient(
-    'grpc.testnet.concordium.com',
+    "grpc.devnet-p10-1.concordium.com",
     20000,
     credentials.createSsl()
 );
 
 (async () => {
     // ticker
-    const tokenId = TokenId.fromString('EUDEMO');
+    const tokenId = TokenId.fromString('EURtest');
 
     // latest finalized block (use BlockHash if you need a specific block)
     const tokenInfo: TokenInfo = await client.getTokenInfo(tokenId);

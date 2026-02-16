@@ -12,7 +12,7 @@ import {
     TransactionKindString,
     RejectReasonTag,
 } from '@concordium/web-sdk';
-import { TokenId, TokenAmount, Cbor, Token, TokenTransfer, TokenHolder } from '@concordium/web-sdk/plt';
+import { TokenId, TokenAmount, Cbor, Token } from '@concordium/web-sdk/plt';
 import { ConcordiumGRPCNodeClient } from '@concordium/web-sdk/nodejs';
 import { credentials } from '@grpc/grpc-js';
 import { readFileSync } from 'node:fs';
@@ -45,12 +45,12 @@ const client = new ConcordiumGRPCNodeClient(
     // parse the other arguments
     const tokenId = TokenId.fromString("USDR"); // Replace with actual token ID
     const token = await Token.fromId(client, tokenId);
-    const amount = TokenAmount.fromDecimal(20, token.info.state.decimals); // some amount to transfer
-    const recipient = TokenHolder.fromAccountAddress(AccountAddress.fromBase58("4JgDjqeUV51fhDDYDuVLG2iUgnWzfwDqxs5kkp5k8pbtxoGEVF")); // replace with actual address to receive
+    const amount = TokenAmount.fromDecimal(500, token.info.state.decimals); // some amount to transfer
+    const recipient = AccountAddress.fromBase58("4XsKku9H1SiASLecGisEmDrNCYVEnbUGsbCWipcU2KoTEuCaVc"); // replace with actual address to receive
     const memo = undefined;
-    // memo = CborMemo.fromString("Any Message To add")
+    // const memo = CborMemo.fromString("Sending test USDR")
 
-    const transfer: TokenTransfer = {
+    const transfer = {
         recipient,
         amount,
         memo,

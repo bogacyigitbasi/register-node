@@ -12,8 +12,8 @@ import { credentials } from '@grpc/grpc-js';
 import { TokenId, TokenInfo, TokenAmount, TokenAccountInfo, Token, V1 } from '@concordium/web-sdk/plt';
 import { AccountAddress, AccountInfo, AccountInfoType, BlockHash } from '@concordium/web-sdk';
 const client = new ConcordiumGRPCNodeClient(
-    "grpc.devnet-plt-beta.concordium.com",
-    // "grpc.stagenet.concordium.com",
+    // "grpc.devnet-plt-beta.concordium.com",
+    "grpc.testnet.concordium.com",
     Number(20000),
     credentials.createSsl(),//credentials.createInsecure() //
 );

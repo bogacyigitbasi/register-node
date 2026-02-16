@@ -22,5 +22,20 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# env
+.env
+
 # wallet
-.export
+*.export
+
+# compiled js (use .ts sources)
+src/*.js
+
+# signed transactions & binaries
+*.tx.bin
+signed-*.json
+payload.json
+
+# wasm artifacts
+dist/*.wasm*
+dist/*.bin

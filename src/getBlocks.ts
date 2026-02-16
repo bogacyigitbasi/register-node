@@ -34,7 +34,7 @@ const client = new ConcordiumGRPCNodeClient(
     //     console.log('Arrived block hash:', block.hash, '\n');
     // }
 
-    const blockHash = BlockHash.fromHexString("555e545222503f3c95ef0d284bd96e0e8e14922c47fefbf5eda7fce3300465ca");
+    const blockHash = BlockHash.fromHexString("");
 
     const events: AsyncIterable<Upward<BlockItemSummary>> = client.getBlockTransactionEvents(blockHash);
     for await (const event of events) {

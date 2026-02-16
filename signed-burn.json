@@ -1,0 +1,20 @@
+{
+  "type": "TokenUpdate",
+  "header": {
+    "sender": "4GtDsiDmNAfs5ZEpQSLgnddSocoU7wB6bmoxLF1cBPc8sSh7jw",
+    "nonce": "4",
+    "expiry": "1760177447"
+  },
+  "payload": {
+    "tokenId": "TestDevnetDenylist",
+    "operations_b64": "gaFkYnVybqFmYW1vdW50xIIhGGQ="
+  },
+  "energyAmount": "30000",
+  "signature": {
+    "0": {
+      "0": {
+        "__bytes_b64": "xEiV7JsuxJ/mWw+u3fVcgvpWCAcSk5kvhdlCz493zDUkLUzOzWUn5vyJIfWM6VIWUuxtM9gZRrb++5FkZXH2Ag=="
+      }
+    }
+  }
+}

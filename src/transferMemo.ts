@@ -12,31 +12,38 @@ import {
     parseWallet,
     buildAccountSigner,
     RegisterDataPayload,
-    SequenceNumber
+    Cbor
 } from '@concordium/web-sdk';
 import { ConcordiumGRPCNodeClient } from '@concordium/web-sdk/nodejs';
 import { credentials } from '@grpc/grpc-js';
 import { readFileSync } from 'node:fs';
 
+import { cborDecode } from '@concordium/web-sdk';
+import { CborMemo } from '@concordium/web-sdk/plt';
 
 const client = new ConcordiumGRPCNodeClient(
     "grpc.testnet.concordium.com",
     Number(20000),
-    credentials.createSsl(),//
+    credentials.createSsl(),//credentials.createInsecure() //
 );
 
+/**
+ * The following example demonstrates how a simple transfer can be created.
+ */
 
+
+// Include memo if it is given otherwise don't
 /**
  * The following example demonstrates how a simple transfer can be created.
  */
 
 (async () => {
     // #region documentation-snippet
-    const walletFile = readFileSync("4xWa.export", 'utf8');
+    const walletFile = readFileSync("3Atest.export", 'utf8');
     const walletExport = parseWallet(walletFile);
     const sender = AccountAddress.fromBase58(walletExport.value.address);
 
-    // const toAddress = AccountAddress.fromBase58("receiver-address");
+    const toAddress = AccountAddress.fromBase58("45StFAvjxS9xiSLRnWvFH8oiv49vGE4UAmDXAd3xrRor1YkjGZ");
     const nextNonce: NextAccountNonce = await client.getNextAccountNonce(
         sender
     );
@@ -47,44 +54,31 @@ const client = new ConcordiumGRPCNodeClient(
         sender,
     };
 
-    const registerData: RegisterDataPayload = {
-        data: new DataBlob(Buffer.from('6B68656C6C6F20776F726C64', 'hex')) // Add the bytes you wish to register as a DataBlob
+
+    const memoBlob = new DataBlob(new TextEncoder().encode("memo").buffer, 'hex');
+
+
+    // Include memo if it is given otherwise don't
+    let simpleTransfer = {
+        amount: CcdAmount.fromMicroCcd(1000),
+        toAddress,
+        memo: memoBlob
     };
-    const registerDataAccountTransaction: AccountTransaction = {
+
+
+    // #region documentation-snippet-sign-transaction
+    const accountTransaction: AccountTransaction = {
         header: header,
-        payload: registerData,
-        type: AccountTransactionType.RegisterData,
+        payload: simpleTransfer,
+        type: AccountTransactionType.TransferWithMemo,
     };
-
-    // // Include memo if it is given otherwise don't
-    // let simpleTransfer = {
-    //     amount: CcdAmount.fromMicroCcd(1000),
-    //     toAddress,
-    //     memo: new DataBlob(Buffer.from("", 'hex')),
-    // };
-
-
-    // // #region documentation-snippet-sign-transaction
-    // const accountTransaction: AccountTransaction = {
-    //     header: header,
-    //     payload: registerData,
-    //     type: AccountTransactionType.Transfer,
-    // };
-
-    // Sign transaction
     const signer = buildAccountSigner(walletExport);
-    const signature: AccountTransactionSignature = await signTransaction(
-        registerDataAccountTransaction,
-        signer
-    );
+    // Sign transaction
+    const signature: AccountTransactionSignature = await signTransaction(accountTransaction, signer);
 
-    const transactionHash = await client.sendAccountTransaction(
-        registerDataAccountTransaction,
-        signature
-    );
+    const transactionHash = await client.sendAccountTransaction(accountTransaction, signature);
     // #endregion documentation-snippet-sign-transaction
 
     const status = await client.waitForTransactionFinalization(transactionHash);
     console.dir(status, { depth: null, colors: true });
-    // #endregion documentation-snippet
 })();
